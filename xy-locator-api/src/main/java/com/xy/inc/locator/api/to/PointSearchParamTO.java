@@ -9,12 +9,12 @@ import lombok.*;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor
-public class InterestPointTO {
-
-    private String pointName;
+public class PointSearchParamTO {
 
     private Float xCoordinate;
 
     private Float yCoordinate;
+
+    private Float radius;
 
 }
