@@ -8,6 +8,10 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<modules>
 		<module>xy-locator-api</module>
+		<module>xy-locator-web</module>
+		<module>xy-locator-repository</module>
+		<module>xy-locator-service</module>
+		<module>xy-locator-model</module>
 	</modules>
 	<packaging>pom</packaging>
 
