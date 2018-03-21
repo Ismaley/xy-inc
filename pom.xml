@@ -26,10 +26,36 @@
 		<spring.boot.version>1.5.9.RELEASE</spring.boot.version>
 		<lombok.version>1.16.18</lombok.version>
 		<validation.api.version>1.1.0.Final</validation.api.version>
+		<modelmapper.version>1.0.0</modelmapper.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
+            <dependency>
+                <groupId>com.xyinc</groupId>
+                <artifactId>xy-locator-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+			<dependency>
+				<groupId>com.xyinc</groupId>
+				<artifactId>xy-locator-web</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.xyinc</groupId>
+				<artifactId>xy-locator-service</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.xyinc</groupId>
+				<artifactId>xy-locator-repository</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.xyinc</groupId>
+				<artifactId>xy-locator-model</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 			<!--Spring-->
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
@@ -76,6 +102,11 @@
 				<groupId>org.projectlombok</groupId>
 				<artifactId>lombok</artifactId>
 				<version>${lombok.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.modelmapper</groupId>
+				<artifactId>modelmapper</artifactId>
+				<version>${modelmapper.version}</version>
 			</dependency>
 			<!--Test Dependencies-->
 			<dependency>

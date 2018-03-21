@@ -1,12 +1,12 @@
-package com.xy.inc.locator.api;
+package com.inc.xy.locator.api;
 
-import com.xy.inc.locator.api.to.InterestPointTO;
+import com.inc.xy.locator.api.to.InterestPointTO;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
-public interface LocatorApi {
+public interface InterestPointsApi {
 
     @PostMapping(value = {"/interest-points"})
     @ResponseBody

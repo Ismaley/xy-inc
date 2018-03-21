@@ -1,4 +1,4 @@
-package com.xy.inc.locator.api.to;
+package com.inc.xy.locator.api.to;
 
 
 import lombok.*;
