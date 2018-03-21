@@ -1,0 +1,23 @@
+version: '2'
+services:
+  postgres:
+    image: postgres:9.5
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=xy_locator
+      - POSTGRES_USER=xy_locator
+      - POSTGRES_PASSWORD=xy_locator
+    volumes:
+#      - ./docker-compose-postgres.sql:/docker-entrypoint-initdb.d/setup.sql
+      - /srv/docker/postgresql:/var/lib/postgresql
+    networks:
+      - custom
+
+networks:
+  custom:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.69.68.24/25

@@ -27,6 +27,11 @@
 		<lombok.version>1.16.18</lombok.version>
 		<validation.api.version>1.1.0.Final</validation.api.version>
 		<modelmapper.version>1.0.0</modelmapper.version>
+
+		<!--database-->
+		<liquibase.core.version>3.5.3</liquibase.core.version>
+		<postgresql.version>42.1.4</postgresql.version>
+        <hibernate.javax.persistence.version>1.0.0.Draft-16</hibernate.javax.persistence.version>
 	</properties>
 
 	<dependencyManagement>
@@ -107,6 +112,22 @@
 				<groupId>org.modelmapper</groupId>
 				<artifactId>modelmapper</artifactId>
 				<version>${modelmapper.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.postgresql</groupId>
+				<artifactId>postgresql</artifactId>
+				<version>${postgresql.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.liquibase</groupId>
+				<artifactId>liquibase-core</artifactId>
+				<version>${liquibase.core.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate.javax.persistence</groupId>
+				<artifactId>hibernate-jpa-2.1-api</artifactId>
+				<version>${hibernate.javax.persistence.version}</version>
 			</dependency>
 			<!--Test Dependencies-->
 			<dependency>

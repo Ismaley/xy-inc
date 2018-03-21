@@ -8,8 +8,7 @@ import org.springframework.context.annotation.Primary;
 @Configuration
 public class ModelMapperConfiguration {
 
-    @Bean(name = "WebAppMapper")
-    @Primary
+    @Bean
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration()
