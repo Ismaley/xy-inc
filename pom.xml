@@ -32,6 +32,7 @@
 		<liquibase.core.version>3.5.3</liquibase.core.version>
 		<postgresql.version>42.1.4</postgresql.version>
         <hibernate.javax.persistence.version>1.0.0.Draft-16</hibernate.javax.persistence.version>
+		<HikariCP.version>2.7.1</HikariCP.version>
 	</properties>
 
 	<dependencyManagement>
@@ -128,6 +129,11 @@
 				<groupId>org.hibernate.javax.persistence</groupId>
 				<artifactId>hibernate-jpa-2.1-api</artifactId>
 				<version>${hibernate.javax.persistence.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.zaxxer</groupId>
+				<artifactId>HikariCP</artifactId>
+				<version>${HikariCP.version}</version>
 			</dependency>
 			<!--Test Dependencies-->
 			<dependency>
