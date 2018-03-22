@@ -29,11 +29,11 @@ public class InterestPoint {
 
     @NotNull
     @Column(nullable = false)
-    private Double xCoordinate;
+    private Integer xCoordinate;
 
     @NotNull
     @Column(nullable = false)
-    private Double yCoordinate;
+    private Integer yCoordinate;
 
     public boolean hasValidName() {
         return !StringUtils.isEmpty(this.pointName);

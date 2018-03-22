@@ -10,6 +10,6 @@ public interface InterestPointsService {
 
     List<InterestPoint> findAll();
 
-    List<InterestPoint> findByProximity(Float xCoordinate, Float yCoordinate, Float radius);
+    List<InterestPoint> findByProximity(Integer xCoordinate, Integer yCoordinate, Integer radius);
 
 }

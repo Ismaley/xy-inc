@@ -2,6 +2,7 @@ package com.inc.xy.locator.web.controller;
 
 import com.inc.xy.locator.api.InterestPointsApi;
 import com.inc.xy.locator.api.to.InterestPointTO;
+import com.inc.xy.locator.api.to.PointSearchParamTO;
 import com.inc.xy.locator.service.InterestPointsService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class InterestPointsController implements InterestPointsApi {
     }
 
     @Override
-    public List<InterestPointTO> findByProximity(Float xCoordinate, Float yCoordinate, Float radius) {
+    public List<InterestPointTO> findByProximity(PointSearchParamTO param) {
         return null;
     }
 }

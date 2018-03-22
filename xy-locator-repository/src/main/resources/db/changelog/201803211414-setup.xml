@@ -18,10 +18,10 @@
             <column name="point_name" type="VARCHAR(255)">
                 <constraints nullable="false" unique="true"/>
             </column>
-            <column name="x_coordinate" type="double">
+            <column name="x_coordinate" type="integer">
                 <constraints nullable="false"/>
             </column>
-            <column name="y_coordinate" type="double">
+            <column name="y_coordinate" type="integer">
                 <constraints nullable="false"/>
             </column>
         </createTable>

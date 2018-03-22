@@ -13,30 +13,34 @@ class InterestPointServiceTest extends Specification {
 
     InterestPoint interestPoint
 
+    def xCoordinate = 22
+    def yCoordinate = 22
+
     def setup() {
         interestPoint = InterestPoint.builder()
                 .id(1L)
                 .pointName("name")
-                .yCoordinate(33.235)
-                .xCoordinate(23.323)
+                .yCoordinate(xCoordinate)
+                .xCoordinate(yCoordinate)
                 .build()
     }
 
     def "should create point"() {
         given:
-        def point = buildInterestPoint("name", 22.45, 22.45)
+        def point = buildInterestPoint("name", xCoordinate, yCoordinate)
 
         when:
         service.create(point)
 
         then:
         1 * repository.findByPointName(point.getPointName())
+        1 * repository.findByXCoordinateAndYCoordinate(xCoordinate, yCoordinate)
         1 * repository.save(point)
     }
 
     def "should not create point with invalid name"() {
         given:
-        def point = buildInterestPoint(null, 22.45, 22.45)
+        def point = buildInterestPoint(null, xCoordinate, yCoordinate)
 
         when:
         service.create(point)
@@ -44,12 +48,13 @@ class InterestPointServiceTest extends Specification {
         then:
         1 * repository.findByPointName(point.getPointName())
         thrown(RuntimeException)
+        0 * repository.findByXCoordinateAndYCoordinate(xCoordinate, yCoordinate)
         0 * repository.save(point)
     }
 
-    def "should not create point with duplicated invalid name"() {
+    def "should not create point with duplicated name"() {
         given:
-        def point = buildInterestPoint("name", 22.45, 22.45)
+        def point = buildInterestPoint("name", xCoordinate, yCoordinate)
 
         when:
         service.create(point)
@@ -57,19 +62,35 @@ class InterestPointServiceTest extends Specification {
         then:
         1 * repository.findByPointName(point.getPointName()) >> interestPoint
         thrown(RuntimeException)
+        0 * repository.findByXCoordinateAndYCoordinate(xCoordinate, yCoordinate)
         0 * repository.save(point)
     }
 
-    def "should not create point with invalid coordinates"() {
+    def "should not create point with duplicated coordinates"() {
         given:
-        def point = buildInterestPoint("name", null, 22.45)
+        def point = buildInterestPoint("name", xCoordinate, yCoordinate)
 
         when:
         service.create(point)
 
         then:
         1 * repository.findByPointName(point.getPointName())
+        1 * repository.findByXCoordinateAndYCoordinate(xCoordinate, yCoordinate) >> interestPoint
         thrown(RuntimeException)
+        0 * repository.save(point)
+    }
+
+    def "should not create point with invalid coordinates"() {
+        given:
+        def point = buildInterestPoint("name", null, yCoordinate)
+
+        when:
+        service.create(point)
+
+        then:
+        thrown(RuntimeException)
+        0 * repository.findByPointName(point.getPointName())
+        0 * repository.findByXCoordinateAndYCoordinate(null, yCoordinate)
         0 * repository.save(point)
     }
 
@@ -82,14 +103,20 @@ class InterestPointServiceTest extends Specification {
         points.size() == 2
     }
 
+    def "should find points by proximity"() {
+        when:
+        def points = service.findByProximity()
 
+        then:
+        1 * repository.findAll() >> Arrays.asList(interestPoint, interestPoint)
+        points.size() == 2
+    }
 
-    InterestPoint buildInterestPoint(String pointName, Double xCoordinate, Double yCoordinate) {
+    InterestPoint buildInterestPoint(String pointName, Integer xCoordinate, Integer yCoordinate) {
         return InterestPoint.builder()
                 .pointName(pointName)
                 .yCoordinate(yCoordinate)
                 .xCoordinate(xCoordinate)
                 .build()
     }
-
 }

@@ -11,10 +11,10 @@ import lombok.*;
 @AllArgsConstructor
 public class PointSearchParamTO {
 
-    private Float xCoordinate;
+    private Integer xCoordinate;
 
-    private Float yCoordinate;
+    private Integer yCoordinate;
 
-    private Float radius;
+    private Integer radius;
 
 }

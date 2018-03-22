@@ -21,10 +21,10 @@ class InterestPointRepositoryTest extends Specification {
 
     def "should not save interest point with duplicated name"(){
         given:
-        repository.save(buildInterestPoint("point1", 22.6, 55.8))
+        repository.save(buildInterestPoint("point1", 22, 55))
 
         when:
-        repository.save(buildInterestPoint("point1", 22.2, 22.3))
+        repository.save(buildInterestPoint("point1", 22, 22))
 
         then:
         thrown(DataIntegrityViolationException)
@@ -40,21 +40,21 @@ class InterestPointRepositoryTest extends Specification {
 
         where:
         name    || xCoordinate || yCoordinate || field
-        null    || 22.2        || 22.2        || "name"
-        "name"  || null        || 22.2        || "xCoordinate"
-        "name"  || 22.2        || null        || "yCoordinate"
+        null    || 22          || 22          || "name"
+        "name"  || null        || 22          || "xCoordinate"
+        "name"  || 22          || null        || "yCoordinate"
         "name"  || null        || null        || "xCoordinate and yCoordinate"
         null    || null        || null        || "all fields"
     }
 
     def "should find points inside given coordinates"() {
         given:
-        repository.save(buildInterestPoint("point1", 22.2, 32.2))
-        repository.save(buildInterestPoint("point2", 22.2, 61.2))
-        repository.save(buildInterestPoint("point3", 12.2, 15.2))
+        repository.save(buildInterestPoint("point1", 22, 32))
+        repository.save(buildInterestPoint("point2", 22, 61))
+        repository.save(buildInterestPoint("point3", 12, 15))
 
         when:
-        def foundPoints = repository.findByXCoordinateIsLessThanEqualAndYCoordinateIsLessThanEqual(22.2, 32.2)
+        def foundPoints = repository.findByXCoordinateIsLessThanEqualAndYCoordinateIsLessThanEqual(22, 32)
 
         then:
         foundPoints.size() == 2
@@ -62,7 +62,24 @@ class InterestPointRepositoryTest extends Specification {
         foundPoints.get(1).getPointName() == "point3"
     }
 
-    InterestPoint buildInterestPoint(String pointName, Double xCoordinate, Double yCoordinate) {
+    def "should find point by coordinates"() {
+        given:
+        def xCoordinate = 22
+        def yCoordinate = 32
+        InterestPoint point = repository.save( buildInterestPoint("point1", xCoordinate, yCoordinate))
+        def pointId = point.getId()
+
+        when:
+        def foundPoint = repository.findByXCoordinateAndYCoordinate(xCoordinate, yCoordinate)
+
+        then:
+        foundPoint != null
+        foundPoint.getId() == pointId
+        foundPoint.getXCoordinate() == xCoordinate
+        foundPoint.getYCoordinate() == yCoordinate
+    }
+
+    InterestPoint buildInterestPoint(String pointName, Integer xCoordinate, Integer yCoordinate) {
         return InterestPoint.builder()
             .pointName(pointName)
             .yCoordinate(yCoordinate)

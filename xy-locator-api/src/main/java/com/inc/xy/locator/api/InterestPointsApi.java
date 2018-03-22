@@ -1,6 +1,7 @@
 package com.inc.xy.locator.api;
 
 import com.inc.xy.locator.api.to.InterestPointTO;
+import com.inc.xy.locator.api.to.PointSearchParamTO;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -18,5 +19,5 @@ public interface InterestPointsApi {
 
     @GetMapping(value = {"/interest-points/byProximity"})
     @ResponseBody
-    List<InterestPointTO> findByProximity(Float xCoordinate, Float yCoordinate, Float radius);
+    List<InterestPointTO> findByProximity(PointSearchParamTO param);
 }
