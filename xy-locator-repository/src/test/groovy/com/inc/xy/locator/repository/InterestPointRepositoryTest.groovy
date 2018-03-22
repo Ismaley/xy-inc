@@ -19,7 +19,6 @@ class InterestPointRepositoryTest extends Specification {
         repository.deleteAll()
     }
 
-
     def "should not save interest point with duplicated name"(){
         given:
         repository.save(buildInterestPoint("point1", 22.6, 55.8))
