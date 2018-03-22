@@ -1,4 +1,4 @@
-package com.inc.xy.locator.web.Configuration;
+package com.inc.xy.locator.web.configuration;
 
 import liquibase.integration.spring.SpringLiquibase;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -10,25 +10,28 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-public class InterestPointsContoller implements InterestPointsApi {
+public class InterestPointsController implements InterestPointsApi {
 
     private InterestPointsService interestPointsService;
     private ModelMapper modelMapper;
 
     @Autowired
-    public InterestPointsContoller(InterestPointsService interestPointsService, ModelMapper modelMapper) {
+    public InterestPointsController(InterestPointsService interestPointsService, ModelMapper modelMapper) {
         this.interestPointsService = interestPointsService;
         this.modelMapper = modelMapper;
     }
 
+    @Override
     public InterestPointTO create(InterestPointTO interestPoint) {
         return null;
     }
 
+    @Override
     public List<InterestPointTO> findAll() {
         return null;
     }
 
+    @Override
     public List<InterestPointTO> findByProximity(Float xCoordinate, Float yCoordinate, Float radius) {
         return null;
     }

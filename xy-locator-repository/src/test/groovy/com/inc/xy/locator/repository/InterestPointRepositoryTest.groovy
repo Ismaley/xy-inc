@@ -13,7 +13,7 @@ import spock.lang.Unroll
 class InterestPointRepositoryTest extends Specification {
 
     @Autowired
-    InterestPointRepository repository
+    InterestPointsRepository repository
 
     def setup() {
         repository.deleteAll()

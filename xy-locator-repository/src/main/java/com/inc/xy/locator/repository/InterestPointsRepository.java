@@ -5,8 +5,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface InterestPointRepository extends JpaRepository<InterestPoint, Long> {
+public interface InterestPointsRepository extends JpaRepository<InterestPoint, Long> {
 
     List<InterestPoint> findByXCoordinateIsLessThanEqualAndYCoordinateIsLessThanEqual(Double xCoordinate, Double yCoordinate);
+
+    InterestPoint findByPointName(String name);
 
 }
