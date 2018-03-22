@@ -1,10 +1,19 @@
 package com.inc.xy.locator.model;
 
+import lombok.*;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
+@Getter
+@Setter
 @Entity
+@Builder
+@EqualsAndHashCode(callSuper=false)
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class InterestPoint {
 
     @Id
@@ -13,15 +22,16 @@ public class InterestPoint {
     private Long id;
 
     @NotEmpty
+    @NotNull
     @Column(nullable = false)
     private String pointName;
 
-    @NotEmpty
+    @NotNull
     @Column(nullable = false)
-    private Float xCoordinate;
+    private Double xCoordinate;
 
-    @NotEmpty
+    @NotNull
     @Column(nullable = false)
-    private Float yCoordinate;
+    private Double yCoordinate;
 
 }

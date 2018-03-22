@@ -9,7 +9,7 @@ import javax.sql.DataSource;
 import java.sql.SQLException;
 
 @Configuration
-public class ProcessorDatabaseConfiguration {
+public class DatabaseConfiguration {
 
     @Autowired
     DataSource dataSource;

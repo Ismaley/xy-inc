@@ -33,6 +33,12 @@
 		<postgresql.version>42.1.4</postgresql.version>
         <hibernate.javax.persistence.version>1.0.0.Draft-16</hibernate.javax.persistence.version>
 		<HikariCP.version>2.7.1</HikariCP.version>
+
+		<spock.core.version>1.1-groovy-2.4</spock.core.version>
+		<cglib.nodep.version>3.2.5</cglib.nodep.version>
+		<javax.el.version>2.2.4</javax.el.version>
+		<java.hamcrest.version>2.0.0.0</java.hamcrest.version>
+		<objenesis.version>2.6</objenesis.version>
 	</properties>
 
 	<dependencyManagement>
@@ -142,7 +148,29 @@
 				<version>${spring.boot.version}</version>
 				<scope>test</scope>
 			</dependency>
-
+			<dependency>
+				<groupId>org.spockframework</groupId>
+				<artifactId>spock-core</artifactId>
+				<version>${spock.core.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.objenesis</groupId>
+				<artifactId>objenesis</artifactId>
+				<version>${objenesis.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>cglib</groupId>
+				<artifactId>cglib-nodep</artifactId>
+				<version>${cglib.nodep.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.hamcrest</groupId>
+				<artifactId>java-hamcrest</artifactId>
+				<version>${java.hamcrest.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<build>
