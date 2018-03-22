@@ -1,6 +1,7 @@
 package com.inc.xy.locator.service
 
 import com.inc.xy.locator.model.InterestPoint
+import com.inc.xy.locator.model.PointSearchParam
 import com.inc.xy.locator.repository.InterestPointsRepository
 import com.inc.xy.locator.service.impl.InterestPointsServiceImpl
 import spock.lang.Specification
@@ -14,7 +15,7 @@ class InterestPointServiceTest extends Specification {
     InterestPoint interestPoint
 
     def xCoordinate = 22
-    def yCoordinate = 22
+    def yCoordinate = 30
 
     def setup() {
         interestPoint = InterestPoint.builder()
@@ -104,12 +105,37 @@ class InterestPointServiceTest extends Specification {
     }
 
     def "should find points by proximity"() {
+        given:
+        def searchParam = PointSearchParam.builder()
+            .xCoordinate(xCoordinate)
+            .yCoordinate(yCoordinate)
+            .radius(10)
+            .build()
+
         when:
-        def points = service.findByProximity()
+        def points = service.findByProximity(searchParam)
 
         then:
-        1 * repository.findAll() >> Arrays.asList(interestPoint, interestPoint)
+        1 * repository.findByXCoordinateIsLessThanEqualAndYCoordinateIsLessThanEqual(searchParam.getXcoordinateParam(),
+                searchParam.getYcoordinateParam()) >> Arrays.asList(interestPoint, interestPoint)
         points.size() == 2
+    }
+
+    def "should not find points by proximity if searchParam is invalid"() {
+        given:
+        def searchParam = PointSearchParam.builder()
+                .xCoordinate(xCoordinate)
+                .yCoordinate(yCoordinate)
+                .radius(-10)
+                .build()
+
+        when:
+        service.findByProximity(searchParam)
+
+        then:
+        thrown(RuntimeException)
+        0 * repository.findByXCoordinateIsLessThanEqualAndYCoordinateIsLessThanEqual(searchParam.getXcoordinateParam(),
+                searchParam.getYcoordinateParam())
     }
 
     InterestPoint buildInterestPoint(String pointName, Integer xCoordinate, Integer yCoordinate) {

@@ -1,6 +1,7 @@
 package com.inc.xy.locator.service;
 
 import com.inc.xy.locator.model.InterestPoint;
+import com.inc.xy.locator.model.PointSearchParam;
 
 import java.util.List;
 
@@ -10,6 +11,6 @@ public interface InterestPointsService {
 
     List<InterestPoint> findAll();
 
-    List<InterestPoint> findByProximity(Integer xCoordinate, Integer yCoordinate, Integer radius);
+    List<InterestPoint> findByProximity(PointSearchParam param);
 
 }

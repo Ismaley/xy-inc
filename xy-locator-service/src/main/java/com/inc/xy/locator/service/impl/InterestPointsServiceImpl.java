@@ -1,6 +1,7 @@
 package com.inc.xy.locator.service.impl;
 
 import com.inc.xy.locator.model.InterestPoint;
+import com.inc.xy.locator.model.PointSearchParam;
 import com.inc.xy.locator.repository.InterestPointsRepository;
 import com.inc.xy.locator.service.InterestPointsService;
 import lombok.extern.slf4j.Slf4j;
@@ -32,8 +33,9 @@ public class InterestPointsServiceImpl implements InterestPointsService {
         return repository.findAll();
     }
 
-    public List<InterestPoint> findByProximity(Integer xCoordinate, Integer yCoordinate, Integer radius) {
-        return null;
+    public List<InterestPoint> findByProximity(PointSearchParam param) {
+        validateSearchParam(param);
+        return repository.findByXCoordinateIsLessThanEqualAndYCoordinateIsLessThanEqual(param.getXcoordinateParam(), param.getYcoordinateParam());
     }
 
     private void verifyDuplicateName(String pointName) {
@@ -48,5 +50,9 @@ public class InterestPointsServiceImpl implements InterestPointsService {
     private void validateFields(InterestPoint interestPoint) {
         if(!interestPoint.hasValidName()) throw new RuntimeException("bad name");
         if(!interestPoint.hasValidCoordinates()) throw new RuntimeException("bad coordinates");
+    }
+
+    private void validateSearchParam(PointSearchParam param) {
+        if(!param.isValid()) throw new RuntimeException("search param is invalid");
     }
 }
