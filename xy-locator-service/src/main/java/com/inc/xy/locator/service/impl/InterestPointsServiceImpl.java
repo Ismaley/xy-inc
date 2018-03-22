@@ -23,11 +23,12 @@ public class InterestPointsServiceImpl implements InterestPointsService {
 
     public InterestPoint create(InterestPoint interestPoint) {
         verifyDuplicate(interestPoint.getPointName());
+        validateFields(interestPoint);
         return repository.save(interestPoint);
     }
 
     public List<InterestPoint> findAll() {
-        return null;
+        return repository.findAll();
     }
 
     public List<InterestPoint> findByProximity(Float xCoordinate, Float yCoordinate, Float radius) {
@@ -36,5 +37,10 @@ public class InterestPointsServiceImpl implements InterestPointsService {
 
     private void verifyDuplicate(String pointName) {
         Optional.ofNullable(repository.findByPointName(pointName)).ifPresent(p -> {throw new RuntimeException("found");});
+    }
+
+    private void validateFields(InterestPoint interestPoint) {
+        if(!interestPoint.hasValidName()) throw new RuntimeException("bad name");
+        if(!interestPoint.hasValidCoordinates()) throw new RuntimeException("bad coordinates");
     }
 }
