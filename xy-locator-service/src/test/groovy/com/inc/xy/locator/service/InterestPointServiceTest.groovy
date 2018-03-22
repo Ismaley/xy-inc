@@ -47,8 +47,8 @@ class InterestPointServiceTest extends Specification {
         service.create(point)
 
         then:
-        1 * repository.findByPointName(point.getPointName())
         thrown(RuntimeException)
+        0 * repository.findByPointName(point.getPointName())
         0 * repository.findByXCoordinateAndYCoordinate(xCoordinate, yCoordinate)
         0 * repository.save(point)
     }
