@@ -4,12 +4,15 @@ import com.inc.xy.locator.model.InterestPoint;
 import com.inc.xy.locator.model.PointSearchParam;
 import com.inc.xy.locator.repository.InterestPointsRepository;
 import com.inc.xy.locator.service.InterestPointsService;
+import com.inc.xy.locator.service.exceptions.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
+import static com.inc.xy.locator.service.exceptions.BusinessException.ErrorMessages.*;
 
 @Slf4j
 @Service
@@ -39,20 +42,20 @@ public class InterestPointsServiceImpl implements InterestPointsService {
     }
 
     private void verifyDuplicateName(String pointName) {
-        Optional.ofNullable(repository.findByPointName(pointName)).ifPresent(p -> {throw new RuntimeException("duplicated name");});
+        Optional.ofNullable(repository.findByPointName(pointName)).ifPresent(p -> {throw new BusinessException(DUPLICATED_NAME);});
     }
 
     private void verifyDuplicateCoordinates(InterestPoint interestPoint) {
         Optional.ofNullable(repository.findByXCoordinateAndYCoordinate(interestPoint.getXCoordinate(),
-                interestPoint.getYCoordinate())).ifPresent(p -> {throw new RuntimeException("duplicated coordinates");});
+                interestPoint.getYCoordinate())).ifPresent(p -> {throw new BusinessException(DUPLICATED_COORDINATES);});
     }
 
     private void validateFields(InterestPoint interestPoint) {
-        if(!interestPoint.hasValidName()) throw new RuntimeException("bad name");
-        if(!interestPoint.hasValidCoordinates()) throw new RuntimeException("bad coordinates");
+        if(!interestPoint.hasValidName()) throw new BusinessException(INVALID_NAME);
+        if(!interestPoint.hasValidCoordinates()) throw new BusinessException(INVALID_COORDINATES);
     }
 
     private void validateSearchParam(PointSearchParam param) {
-        if(!param.isValid()) throw new RuntimeException("search param is invalid");
+        if(!param.isValid()) throw new BusinessException(INVALID_SEARCH_PARAM);
     }
 }

@@ -3,8 +3,16 @@ package com.inc.xy.locator.service
 import com.inc.xy.locator.model.InterestPoint
 import com.inc.xy.locator.model.PointSearchParam
 import com.inc.xy.locator.repository.InterestPointsRepository
+import com.inc.xy.locator.service.exceptions.BusinessException
 import com.inc.xy.locator.service.impl.InterestPointsServiceImpl
+import jdk.nashorn.internal.runtime.regexp.joni.exception.ErrorMessages
 import spock.lang.Specification
+
+import static com.inc.xy.locator.service.exceptions.BusinessException.ErrorMessages.DUPLICATED_COORDINATES
+import static com.inc.xy.locator.service.exceptions.BusinessException.ErrorMessages.DUPLICATED_NAME
+import static com.inc.xy.locator.service.exceptions.BusinessException.ErrorMessages.INVALID_COORDINATES
+import static com.inc.xy.locator.service.exceptions.BusinessException.ErrorMessages.INVALID_NAME
+import static com.inc.xy.locator.service.exceptions.BusinessException.ErrorMessages.INVALID_SEARCH_PARAM
 
 class InterestPointServiceTest extends Specification {
 
@@ -47,10 +55,11 @@ class InterestPointServiceTest extends Specification {
         service.create(point)
 
         then:
-        thrown(RuntimeException)
+        def e = thrown(BusinessException)
         0 * repository.findByPointName(point.getPointName())
         0 * repository.findByXCoordinateAndYCoordinate(xCoordinate, yCoordinate)
         0 * repository.save(point)
+        e.getMessage() == INVALID_NAME
     }
 
     def "should not create point with duplicated name"() {
@@ -62,9 +71,10 @@ class InterestPointServiceTest extends Specification {
 
         then:
         1 * repository.findByPointName(point.getPointName()) >> interestPoint
-        thrown(RuntimeException)
+        def e = thrown(BusinessException)
         0 * repository.findByXCoordinateAndYCoordinate(xCoordinate, yCoordinate)
         0 * repository.save(point)
+        e.getMessage() == DUPLICATED_NAME
     }
 
     def "should not create point with duplicated coordinates"() {
@@ -77,8 +87,9 @@ class InterestPointServiceTest extends Specification {
         then:
         1 * repository.findByPointName(point.getPointName())
         1 * repository.findByXCoordinateAndYCoordinate(xCoordinate, yCoordinate) >> interestPoint
-        thrown(RuntimeException)
+        def e = thrown(BusinessException)
         0 * repository.save(point)
+        e.getMessage() == DUPLICATED_COORDINATES
     }
 
     def "should not create point with invalid coordinates"() {
@@ -89,10 +100,11 @@ class InterestPointServiceTest extends Specification {
         service.create(point)
 
         then:
-        thrown(RuntimeException)
+        def e = thrown(BusinessException)
         0 * repository.findByPointName(point.getPointName())
         0 * repository.findByXCoordinateAndYCoordinate(null, yCoordinate)
         0 * repository.save(point)
+        e.getMessage() == INVALID_COORDINATES
     }
 
     def "should find all points"() {
@@ -133,9 +145,10 @@ class InterestPointServiceTest extends Specification {
         service.findByProximity(searchParam)
 
         then:
-        thrown(RuntimeException)
+        def e = thrown(BusinessException)
         0 * repository.findByXCoordinateIsLessThanEqualAndYCoordinateIsLessThanEqual(searchParam.getXcoordinateParam(),
                 searchParam.getYcoordinateParam())
+        e.getMessage() == INVALID_SEARCH_PARAM
     }
 
     InterestPoint buildInterestPoint(String pointName, Integer xCoordinate, Integer yCoordinate) {
