@@ -15,8 +15,8 @@ public class InterestPointTO {
 
     private String pointName;
 
-    private Integer xCoordinate;
+    private Integer latitude;
 
-    private Integer yCoordinate;
+    private Integer longitude;
 
 }

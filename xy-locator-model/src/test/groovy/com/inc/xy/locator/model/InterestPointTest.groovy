@@ -5,12 +5,12 @@ import spock.lang.Unroll
 
 class InterestPointTest extends Specification {
 
-    Integer xCoordinate = 22
-    Integer yCoordinate = 22
+    Integer latitude = 22
+    Integer longitude = 22
 
     def "pointName should be valid"() {
         given:
-        def point = buildInterestPoint("name", xCoordinate, yCoordinate)
+        def point = buildInterestPoint("name", latitude, longitude)
 
         when:
         def isValid = point.hasValidName()
@@ -22,7 +22,7 @@ class InterestPointTest extends Specification {
     @Unroll
     def "pointName should not be valid when name is #situation"() {
         given:
-        def point = buildInterestPoint(name, xCoordinate, yCoordinate)
+        def point = buildInterestPoint(name, latitude, longitude)
 
         when:
         def isValid = point.hasValidName()
@@ -38,7 +38,7 @@ class InterestPointTest extends Specification {
 
     def "coordinates should be valid"() {
         given:
-        def point = buildInterestPoint("name", xCoordinate, yCoordinate)
+        def point = buildInterestPoint("name", latitude, longitude)
 
         when:
         def areValid = point.hasValidCoordinates()
@@ -50,7 +50,7 @@ class InterestPointTest extends Specification {
     @Unroll
     def "coordinates should not be valid when #situation"() {
         given:
-        def point = buildInterestPoint("name", xCoordinateParam, yCoordinateParam)
+        def point = buildInterestPoint("name", latitudeParam, longitudeParam)
 
         when:
         def areValid = point.hasValidCoordinates()
@@ -59,22 +59,22 @@ class InterestPointTest extends Specification {
         !areValid
 
         where:
-        xCoordinateParam  || yCoordinateParam || situation
-        null              || null             || "both coordinates are null"
-        null              || 22               || "xCoordinate is null"
-        22                || null             || "yCoordinate is null"
-        22                || -22              || "yCoordinate is negative"
-        -22               || 22               || "xCoordinate is negative"
-        -22               || null             || "xCoordinate is negative and yCoordinate is null"
-        null              || -22              || "xCoordinate is negative and yCoordinate is null"
-        -22               || -22              || "both coordinates are negative"
+        latitudeParam   || longitudeParam   || situation
+        null            || null             || "both coordinates are null"
+        null            || 22               || "latitude is null"
+        22              || null             || "longitude is null"
+        22              || -22              || "longitude is negative"
+        -22             || 22               || "latitude is negative"
+        -22             || null             || "latitude is negative and longitude is null"
+        null            || -22              || "latitude is negative and longitude is null"
+        -22             || -22              || "both coordinates are negative"
     }
 
-    InterestPoint buildInterestPoint(String pointName, Integer xCoordinate, Integer yCoordinate) {
+    InterestPoint buildInterestPoint(String pointName, Integer latitude, Integer longitude) {
         return InterestPoint.builder()
                 .pointName(pointName)
-                .yCoordinate(yCoordinate)
-                .xCoordinate(xCoordinate)
+                .longitude(longitude)
+                .latitude(latitude)
                 .build()
     }
 }

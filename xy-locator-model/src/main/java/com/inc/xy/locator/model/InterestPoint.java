@@ -1,12 +1,10 @@
 package com.inc.xy.locator.model;
 
 import lombok.*;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Optional;
 
 @Getter
 @Setter
@@ -29,17 +27,17 @@ public class InterestPoint {
 
     @NotNull
     @Column(nullable = false)
-    private Integer xCoordinate;
+    private Integer latitude;
 
     @NotNull
     @Column(nullable = false)
-    private Integer yCoordinate;
+    private Integer longitude;
 
     public boolean hasValidName() {
         return !StringUtils.isEmpty(this.pointName);
     }
 
     public boolean hasValidCoordinates() {
-        return this.xCoordinate != null && this.yCoordinate != null && this.xCoordinate >= 0 && this.yCoordinate >= 0;
+        return this.latitude != null && this.longitude != null && this.latitude >= 0 && this.longitude >= 0;
     }
 }

@@ -33,17 +33,17 @@ class InterestPointRepositoryTest extends Specification {
     @Unroll
     def "should not save interest point with null #field"(){
         when:
-        repository.save(buildInterestPoint(name, xCoordinate, yCoordinate))
+        repository.save(buildInterestPoint(name, latitude, longitude))
 
         then:
         thrown(DataIntegrityViolationException)
 
         where:
-        name    || xCoordinate || yCoordinate || field
+        name    || latitude || longitude || field
         null    || 22          || 22          || "name"
-        "name"  || null        || 22          || "xCoordinate"
-        "name"  || 22          || null        || "yCoordinate"
-        "name"  || null        || null        || "xCoordinate and yCoordinate"
+        "name"  || null        || 22          || "latitude"
+        "name"  || 22          || null        || "longitude"
+        "name"  || null        || null        || "latitude and longitude"
         null    || null        || null        || "all fields"
     }
 
@@ -54,7 +54,7 @@ class InterestPointRepositoryTest extends Specification {
         repository.save(buildInterestPoint("point3", 12, 15))
 
         when:
-        def foundPoints = repository.findByXCoordinateIsLessThanEqualAndYCoordinateIsLessThanEqual(22, 32)
+        def foundPoints = repository.findByLatitudeIsLessThanEqualAndLongitudeIsLessThanEqual(22, 32)
 
         then:
         foundPoints.size() == 2
@@ -64,26 +64,26 @@ class InterestPointRepositoryTest extends Specification {
 
     def "should find point by coordinates"() {
         given:
-        def xCoordinate = 22
-        def yCoordinate = 32
-        InterestPoint point = repository.save( buildInterestPoint("point1", xCoordinate, yCoordinate))
+        def latitude = 22
+        def longitude = 32
+        InterestPoint point = repository.save(buildInterestPoint("point1", latitude, longitude))
         def pointId = point.getId()
 
         when:
-        def foundPoint = repository.findByXCoordinateAndYCoordinate(xCoordinate, yCoordinate)
+        def foundPoint = repository.findByLatitudeAndLongitude(latitude, longitude)
 
         then:
         foundPoint != null
         foundPoint.getId() == pointId
-        foundPoint.getXCoordinate() == xCoordinate
-        foundPoint.getYCoordinate() == yCoordinate
+        foundPoint.getLatitude() == latitude
+        foundPoint.getLongitude() == longitude
     }
 
-    InterestPoint buildInterestPoint(String pointName, Integer xCoordinate, Integer yCoordinate) {
+    InterestPoint buildInterestPoint(String pointName, Integer latitude, Integer longitude) {
         return InterestPoint.builder()
             .pointName(pointName)
-            .yCoordinate(yCoordinate)
-            .xCoordinate(xCoordinate)
+            .longitude(longitude)
+            .latitude(latitude)
             .build()
     }
 }

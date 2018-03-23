@@ -52,8 +52,8 @@ public class InterestPointIntegratedTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", notNullValue()))
                 .andExpect(jsonPath("$.pointName", is(point.getPointName())))
-                .andExpect(jsonPath("$.xcoordinate", is(point.getXCoordinate())))
-                .andExpect(jsonPath("$.ycoordinate", is(point.getXCoordinate())))
+                .andExpect(jsonPath("$.latitude", is(point.getLatitude())))
+                .andExpect(jsonPath("$.longitude", is(point.getLongitude())))
                 .andDo(MockMvcResultHandlers.print());
     }
 
@@ -69,11 +69,11 @@ public class InterestPointIntegratedTest {
                 .andDo(MockMvcResultHandlers.print());
     }
 
-    private InterestPointTO buildPoint(String name, Integer xCoordinate, Integer yCoordinate) {
+    private InterestPointTO buildPoint(String name, Integer latitude, Integer longitude) {
         return InterestPointTO.builder()
                 .pointName(name)
-                .xCoordinate(xCoordinate)
-                .yCoordinate(yCoordinate)
+                .latitude(latitude)
+                .longitude(longitude)
                 .build();
     }
 }

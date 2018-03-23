@@ -11,22 +11,22 @@ import lombok.*;
 @AllArgsConstructor
 public class PointSearchParam {
 
-    private Integer xCoordinate;
+    private Integer latitude;
 
-    private Integer yCoordinate;
+    private Integer longitude;
 
     private Integer radius;
 
-    public Integer getXcoordinateParam() {
+    public Integer getLatitudeParam() {
         if(isValid()) {
-            return this.xCoordinate + this.radius;
+            return this.latitude + this.radius;
         }
         return null;
     }
 
-    public Integer getYcoordinateParam() {
+    public Integer getLongitudeParam() {
         if(isValid()) {
-            return this.yCoordinate + this.radius;
+            return this.longitude + this.radius;
         }
         return null;
     }
@@ -36,7 +36,7 @@ public class PointSearchParam {
     }
 
     private boolean areNotNullFields() {
-        return this.radius != null && this.xCoordinate != null && this.yCoordinate != null;
+        return this.radius != null && this.latitude != null && this.longitude != null;
     }
 
     private boolean isValidRadius() {
@@ -44,6 +44,6 @@ public class PointSearchParam {
     }
 
     private boolean areValidCoordinates() {
-        return this.xCoordinate >= 0 && this.yCoordinate >= 0;
+        return this.latitude >= 0 && this.longitude >= 0;
     }
 }

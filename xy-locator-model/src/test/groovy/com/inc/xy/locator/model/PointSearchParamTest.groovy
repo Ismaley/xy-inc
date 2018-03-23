@@ -5,16 +5,16 @@ import spock.lang.Unroll
 
 class PointSearchParamTest extends Specification {
 
-    def xCoordinate = 30
-    def yCoordinate = 20
+    def latitude = 30
+    def longitude = 20
     def radius = 10
 
     @Unroll
     def "param should be invalid when #situation"() {
         given:
         PointSearchParam param = PointSearchParam.builder()
-                .xCoordinate(xCoordinate)
-                .yCoordinate(yCoordinate)
+                .latitude(latitude)
+                .longitude(longitude)
                 .radius(radius)
                 .build()
 
@@ -25,76 +25,76 @@ class PointSearchParamTest extends Specification {
         !isValid
 
         where:
-        xCoordinate || yCoordinate || radius || situation
-        null        || null        || null   || "all attributes null"
-        null        || 22          || 22     || "xCoordinate is null"
-        null        || null        || 22     || "yCoordinate is null"
-        -22         || 22          || 22     || "xCoordinate is negative"
-        22          || -22         || 22     || "yCoordinate is negative"
-        22          || 22          || null   || "radius is null"
-        22          || 22          || 0      || "radius is 0"
-        22          || 22          || -22    || "radius is negative"
+        latitude || longitude || radius || situation
+        null     || null      || null   || "all attributes null"
+        null     || 22        || 22     || "latitude is null"
+        null     || null      || 22     || "longitude is null"
+        -22      || 22        || 22     || "latitude is negative"
+        22       || -22       || 22     || "longitude is negative"
+        22       || 22        || null   || "radius is null"
+        22       || 22        || 0      || "radius is 0"
+        22       || 22        || -22    || "radius is negative"
     }
 
-    def "should return xCoordinateParam"() {
+    def "should return latitudeParam"() {
         given:
         PointSearchParam param = PointSearchParam.builder()
-                .xCoordinate(xCoordinate)
-                .yCoordinate(yCoordinate)
+                .latitude(latitude)
+                .longitude(longitude)
                 .radius(radius)
                 .build()
 
         when:
-        def xCoordinateParam = param.getXcoordinateParam()
+        def latitudeParam = param.getLatitudeParam()
 
         then:
-        xCoordinateParam != null
-        xCoordinateParam == xCoordinate + radius
+        latitudeParam != null
+        latitudeParam == latitude + radius
     }
 
-    def "should return yCoordinateParam"() {
+    def "should return longitudeParam"() {
         given:
         PointSearchParam param = PointSearchParam.builder()
-                .xCoordinate(xCoordinate)
-                .yCoordinate(yCoordinate)
+                .latitude(latitude)
+                .longitude(longitude)
                 .radius(radius)
                 .build()
 
         when:
-        def yCoordinateParam = param.getYcoordinateParam()
+        def longitudeParam = param.getLongitudeParam()
 
         then:
-        yCoordinateParam != null
-        yCoordinateParam == yCoordinate + radius
+        longitudeParam != null
+        longitudeParam == longitude + radius
     }
 
-    def "should return null yCoordinateParam if PointSearchParam is not valid"() {
+    def "should return null longitudeParam if PointSearchParam is not valid"() {
         given:
         PointSearchParam param = PointSearchParam.builder()
-                .xCoordinate(null)
-                .yCoordinate(yCoordinate)
+                .latitude(null)
+                .longitude(longitude)
                 .radius(radius)
                 .build()
 
         when:
-        def yCoordinateParam = param.getYcoordinateParam()
+        def longitudeParam = param.getLongitudeParam()
 
         then:
-        yCoordinateParam == null
+        longitudeParam == null
     }
 
-    def "should return null xCoordinateParam if PointSearchParam is not valid"() {
+    def "should return null latitude if PointSearchParam is not valid"() {
         given:
         PointSearchParam param = PointSearchParam.builder()
-                .xCoordinate(xCoordinate)
-                .yCoordinate(yCoordinate)
+                .latitude(this.latitude)
+                .longitude(longitude)
                 .radius(null)
                 .build()
 
         when:
-        def xCoordinateParam = param.getXcoordinateParam()
+        def latitudeParam = param.getLatitudeParam()
 
         then:
-        xCoordinateParam == null
+        latitudeParam == null
     }
 }

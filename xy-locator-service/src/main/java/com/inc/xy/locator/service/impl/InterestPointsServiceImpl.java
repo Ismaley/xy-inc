@@ -38,7 +38,7 @@ public class InterestPointsServiceImpl implements InterestPointsService {
 
     public List<InterestPoint> findByProximity(PointSearchParam param) {
         validateSearchParam(param);
-        return repository.findByXCoordinateIsLessThanEqualAndYCoordinateIsLessThanEqual(param.getXcoordinateParam(), param.getYcoordinateParam());
+        return repository.findByLatitudeIsLessThanEqualAndLongitudeIsLessThanEqual(param.getLatitudeParam(), param.getLongitudeParam());
     }
 
     private void verifyDuplicateName(String pointName) {
@@ -46,8 +46,8 @@ public class InterestPointsServiceImpl implements InterestPointsService {
     }
 
     private void verifyDuplicateCoordinates(InterestPoint interestPoint) {
-        Optional.ofNullable(repository.findByXCoordinateAndYCoordinate(interestPoint.getXCoordinate(),
-                interestPoint.getYCoordinate())).ifPresent(p -> {throw new BusinessException(DUPLICATED_COORDINATES);});
+        Optional.ofNullable(repository.findByLatitudeAndLongitude(interestPoint.getLatitude(),
+                interestPoint.getLongitude())).ifPresent(p -> {throw new BusinessException(DUPLICATED_COORDINATES);});
     }
 
     private void validateFields(InterestPoint interestPoint) {

@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface InterestPointsRepository extends JpaRepository<InterestPoint, Long> {
 
-    List<InterestPoint> findByXCoordinateIsLessThanEqualAndYCoordinateIsLessThanEqual(Integer xCoordinateParam, Integer yCoordinateParam);
+    List<InterestPoint> findByLatitudeIsLessThanEqualAndLongitudeIsLessThanEqual(Integer latitude, Integer longitude);
 
     InterestPoint findByPointName(String name);
 
-    InterestPoint findByXCoordinateAndYCoordinate(Integer xCoordinate, Integer yCoordinate);
+    InterestPoint findByLatitudeAndLongitude(Integer latitude, Integer longitude);
 }

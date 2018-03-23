@@ -7,11 +7,7 @@ import com.inc.xy.locator.service.exceptions.BusinessException
 import com.inc.xy.locator.service.impl.InterestPointsServiceImpl
 import spock.lang.Specification
 
-import static com.inc.xy.locator.service.exceptions.BusinessException.ErrorCode.DUPLICATED_COORDINATES
-import static com.inc.xy.locator.service.exceptions.BusinessException.ErrorCode.DUPLICATED_NAME
-import static com.inc.xy.locator.service.exceptions.BusinessException.ErrorCode.INVALID_COORDINATES
-import static com.inc.xy.locator.service.exceptions.BusinessException.ErrorCode.INVALID_NAME
-import static com.inc.xy.locator.service.exceptions.BusinessException.ErrorCode.INVALID_SEARCH_PARAM
+import static com.inc.xy.locator.service.exceptions.BusinessException.ErrorCode.*
 
 class InterestPointServiceTest extends Specification {
 
@@ -21,34 +17,34 @@ class InterestPointServiceTest extends Specification {
 
     InterestPoint interestPoint
 
-    def xCoordinate = 22
-    def yCoordinate = 30
+    def latitude = 22
+    def longitude = 30
 
     def setup() {
         interestPoint = InterestPoint.builder()
                 .id(1L)
                 .pointName("name")
-                .yCoordinate(xCoordinate)
-                .xCoordinate(yCoordinate)
+                .longitude(latitude)
+                .latitude(longitude)
                 .build()
     }
 
     def "should create point"() {
         given:
-        def point = buildInterestPoint("name", xCoordinate, yCoordinate)
+        def point = buildInterestPoint("name", latitude, longitude)
 
         when:
         service.create(point)
 
         then:
         1 * repository.findByPointName(point.getPointName())
-        1 * repository.findByXCoordinateAndYCoordinate(xCoordinate, yCoordinate)
+        1 * repository.findByLatitudeAndLongitude(latitude, longitude)
         1 * repository.save(point)
     }
 
     def "should not create point with invalid name"() {
         given:
-        def point = buildInterestPoint(null, xCoordinate, yCoordinate)
+        def point = buildInterestPoint(null, latitude, longitude)
 
         when:
         service.create(point)
@@ -56,14 +52,14 @@ class InterestPointServiceTest extends Specification {
         then:
         def e = thrown(BusinessException)
         0 * repository.findByPointName(point.getPointName())
-        0 * repository.findByXCoordinateAndYCoordinate(xCoordinate, yCoordinate)
+        0 * repository.findByLatitudeAndLongitude(latitude, longitude)
         0 * repository.save(point)
         e.getMessage() == INVALID_NAME.message
     }
 
     def "should not create point with duplicated name"() {
         given:
-        def point = buildInterestPoint("name", xCoordinate, yCoordinate)
+        def point = buildInterestPoint("name", latitude, longitude)
 
         when:
         service.create(point)
@@ -71,21 +67,21 @@ class InterestPointServiceTest extends Specification {
         then:
         1 * repository.findByPointName(point.getPointName()) >> interestPoint
         def e = thrown(BusinessException)
-        0 * repository.findByXCoordinateAndYCoordinate(xCoordinate, yCoordinate)
+        0 * repository.findByLatitudeAndLongitude(latitude, longitude)
         0 * repository.save(point)
         e.getMessage() == DUPLICATED_NAME.message
     }
 
     def "should not create point with duplicated coordinates"() {
         given:
-        def point = buildInterestPoint("name", xCoordinate, yCoordinate)
+        def point = buildInterestPoint("name", latitude, longitude)
 
         when:
         service.create(point)
 
         then:
         1 * repository.findByPointName(point.getPointName())
-        1 * repository.findByXCoordinateAndYCoordinate(xCoordinate, yCoordinate) >> interestPoint
+        1 * repository.findByLatitudeAndLongitude(latitude, longitude) >> interestPoint
         def e = thrown(BusinessException)
         0 * repository.save(point)
         e.getMessage() == DUPLICATED_COORDINATES.message
@@ -93,7 +89,7 @@ class InterestPointServiceTest extends Specification {
 
     def "should not create point with invalid coordinates"() {
         given:
-        def point = buildInterestPoint("name", null, yCoordinate)
+        def point = buildInterestPoint("name", null, longitude)
 
         when:
         service.create(point)
@@ -101,7 +97,7 @@ class InterestPointServiceTest extends Specification {
         then:
         def e = thrown(BusinessException)
         0 * repository.findByPointName(point.getPointName())
-        0 * repository.findByXCoordinateAndYCoordinate(null, yCoordinate)
+        0 * repository.findByLatitudeAndLongitude(null, longitude)
         0 * repository.save(point)
         e.getMessage() == INVALID_COORDINATES.message
     }
@@ -118,8 +114,8 @@ class InterestPointServiceTest extends Specification {
     def "should find points by proximity"() {
         given:
         def searchParam = PointSearchParam.builder()
-            .xCoordinate(xCoordinate)
-            .yCoordinate(yCoordinate)
+            .latitude(latitude)
+            .longitude(longitude)
             .radius(10)
             .build()
 
@@ -127,16 +123,16 @@ class InterestPointServiceTest extends Specification {
         def points = service.findByProximity(searchParam)
 
         then:
-        1 * repository.findByXCoordinateIsLessThanEqualAndYCoordinateIsLessThanEqual(searchParam.getXcoordinateParam(),
-                searchParam.getYcoordinateParam()) >> Arrays.asList(interestPoint, interestPoint)
+        1 * repository.findByLatitudeIsLessThanEqualAndLongitudeIsLessThanEqual(searchParam.getLatitudeParam(),
+                searchParam.getLongitudeParam()) >> Arrays.asList(interestPoint, interestPoint)
         points.size() == 2
     }
 
     def "should not find points by proximity if searchParam is invalid"() {
         given:
         def searchParam = PointSearchParam.builder()
-                .xCoordinate(xCoordinate)
-                .yCoordinate(yCoordinate)
+                .latitude(latitude)
+                .longitude(longitude)
                 .radius(-10)
                 .build()
 
@@ -145,16 +141,16 @@ class InterestPointServiceTest extends Specification {
 
         then:
         def e = thrown(BusinessException)
-        0 * repository.findByXCoordinateIsLessThanEqualAndYCoordinateIsLessThanEqual(searchParam.getXcoordinateParam(),
-                searchParam.getYcoordinateParam())
+        0 * repository.findByLatitudeIsLessThanEqualAndLongitudeIsLessThanEqual(searchParam.getLatitudeParam(),
+                searchParam.getLongitudeParam())
         e.getMessage() == INVALID_SEARCH_PARAM.message
     }
 
-    InterestPoint buildInterestPoint(String pointName, Integer xCoordinate, Integer yCoordinate) {
+    InterestPoint buildInterestPoint(String pointName, Integer latitude, Integer longitude) {
         return InterestPoint.builder()
                 .pointName(pointName)
-                .yCoordinate(yCoordinate)
-                .xCoordinate(xCoordinate)
+                .longitude(longitude)
+                .latitude(latitude)
                 .build()
     }
 }

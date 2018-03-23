@@ -1,11 +1,13 @@
 package com.inc.xy.locator.service.exceptions;
 
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class BusinessException extends RuntimeException {
 
+    @Getter
     private String errorCode;
 
     public BusinessException(ErrorCode errorCode) {
