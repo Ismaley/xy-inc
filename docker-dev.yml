@@ -1,16 +1,5 @@
 version: '2'
 services:
-  xy-locator-web:
-    image: xy-locator-web
-    ports:
-      - "8080:8080"
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/xy_locator
-    networks:
-      - custom
-    depends_on:
-      - postgres
-
   postgres:
     image: postgres:9.5
     ports:
