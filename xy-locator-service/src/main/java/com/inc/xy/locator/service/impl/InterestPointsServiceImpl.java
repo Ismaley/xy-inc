@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-import static com.inc.xy.locator.service.exceptions.BusinessException.ErrorMessages.*;
+import static com.inc.xy.locator.service.exceptions.BusinessException.ErrorCode.*;
 
 @Slf4j
 @Service

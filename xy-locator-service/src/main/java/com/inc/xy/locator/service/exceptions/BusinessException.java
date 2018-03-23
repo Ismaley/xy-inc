@@ -8,17 +8,26 @@ public class BusinessException extends RuntimeException {
 
     private String errorCode;
 
-    public BusinessException(String errorCode, String message) {
-        super(message);
-        this.errorCode = errorCode;
+    public BusinessException(ErrorCode errorCode) {
+        super(errorCode.message);
+        this.errorCode = errorCode.code;
     }
 
-    public static class ErrorMessages {
-        public static final String DUPLICATED_NAME = "duplicated name";
-        public static final String DUPLICATED_COORDINATES = "duplicated coordinates";
-        public static final String INVALID_NAME = "name cannot be null or empty";
-        public static final String INVALID_COORDINATES = "coordinates must not be null and must be a positive number";
-        public static final String INVALID_SEARCH_PARAM = "search param must have positive coordinates and radius greater than 0";
+    public static class ErrorCode {
+
+        public final String code;
+        public final String message;
+
+        public static final ErrorCode DUPLICATED_NAME = new ErrorCode("DUPLICATED_NAME", "this point name has already been taken");
+        public static final ErrorCode DUPLICATED_COORDINATES = new ErrorCode("DUPLICATED_COORDINATES", "these coordinates have already been taken");
+        public static final ErrorCode INVALID_NAME = new ErrorCode("INVALID_NAME", "name cannot be null or empty");
+        public static final ErrorCode INVALID_COORDINATES = new ErrorCode("INVALID_COORDINATES", "coordinates must not be null and must be a positive number");
+        public static final ErrorCode INVALID_SEARCH_PARAM = new ErrorCode("INVALID_SEARCH_PARAM", "search param must have positive coordinates and radius greater than 0");
+
+        private ErrorCode(final String code, final String message) {
+            this.code = code;
+            this.message = message;
+        }
     }
 
 }
