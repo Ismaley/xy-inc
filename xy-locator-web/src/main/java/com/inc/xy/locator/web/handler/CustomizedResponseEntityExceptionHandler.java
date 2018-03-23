@@ -1,5 +1,6 @@
 package com.inc.xy.locator.web.handler;
 
+import com.google.gson.Gson;
 import com.inc.xy.locator.service.exceptions.BusinessException;
 import com.inc.xy.locator.service.exceptions.ErrorDetails;
 import org.springframework.http.HttpStatus;
@@ -10,16 +11,19 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @ControllerAdvice
 @RestController
 public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
+    private Gson gson = new Gson();
+
+
     @ExceptionHandler(BusinessException.class)
-    public final ResponseEntity<ErrorDetails> handleUserNotFoundException(BusinessException ex, WebRequest request) {
-        ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(),
-                request.getDescription(false));
-        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+    public final ResponseEntity<String> handleUserNotFoundException(BusinessException ex, WebRequest request) {
+        ErrorDetails errorDetails = new ErrorDetails(ex.getCode, ex.getMessage(), LocalDateTime.now());
+        return new ResponseEntity<>(gson.toJson(errorDetails), HttpStatus.BAD_REQUEST);
     }
 }

@@ -9,6 +9,7 @@ import com.inc.xy.locator.service.InterestPointsService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class InterestPointsController implements InterestPointsApi {
     }
 
     @Override
-    public InterestPointTO create(InterestPointTO interestPoint) {
+    public InterestPointTO create(@RequestBody InterestPointTO interestPoint) {
         return modelMapper.map(interestPointsService.create(modelMapper.map(interestPoint, InterestPoint.class)),
                 InterestPointTO.class);
     }

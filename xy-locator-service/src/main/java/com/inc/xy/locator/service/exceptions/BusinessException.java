@@ -6,8 +6,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class BusinessException extends RuntimeException {
 
-    public BusinessException(String message) {
+    private String errorCode;
+
+    public BusinessException(String errorCode, String message) {
         super(message);
+        this.errorCode = errorCode;
     }
 
     public static class ErrorMessages {

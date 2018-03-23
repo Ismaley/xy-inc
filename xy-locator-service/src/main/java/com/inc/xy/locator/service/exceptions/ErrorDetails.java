@@ -1,17 +1,17 @@
 package com.inc.xy.locator.service.exceptions;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class ErrorDetails {
 
-    private Date timestamp;
+    private String errorCode;
     private String message;
-    private String details;
+    private LocalDateTime timestamp;
 
-    public ErrorDetails(Date timestamp, String message, String details) {
-        super();
-        this.timestamp = timestamp;
+    public ErrorDetails(String errorCode, String message, LocalDateTime timestamp) {
+        this.errorCode = errorCode;
         this.message = message;
-        this.details = details;
+        this.timestamp = timestamp;
     }
 }

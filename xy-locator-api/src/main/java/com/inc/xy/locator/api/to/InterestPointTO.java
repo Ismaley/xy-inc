@@ -11,10 +11,12 @@ import lombok.*;
 @AllArgsConstructor
 public class InterestPointTO {
 
+    private Long id;
+
     private String pointName;
 
-    private Float xCoordinate;
+    private Integer xCoordinate;
 
-    private Float yCoordinate;
+    private Integer yCoordinate;
 
 }
