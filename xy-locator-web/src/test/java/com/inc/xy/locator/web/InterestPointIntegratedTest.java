@@ -94,22 +94,6 @@ public class InterestPointIntegratedTest {
     }
 
     @Test
-    public void shouldNotCreateInterestPointWithDuplicatedCoordinates() throws Exception {
-        repository.save(InterestPoint.builder().pointName("point name").latitude(22).longitude(22).build());
-
-        InterestPointTO point = buildPoint("another point name", 22, 22);
-
-        mockMvc.perform(post(PATH)
-                .content(gson.toJson(point))
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.errorCode", is(DUPLICATED_COORDINATES.code)))
-                .andExpect(jsonPath("$.message", is(DUPLICATED_COORDINATES.message)))
-                .andExpect(jsonPath("$.pathInfo", is(PATH)));
-    }
-
-    @Test
     public void shouldNotCreateInterestPointWithInvalidCoordinates() throws Exception {
         InterestPointTO point = buildPoint("another point name", null, 22);
 
@@ -149,22 +133,28 @@ public class InterestPointIntegratedTest {
 
     @Test
     public void shouldFindPointsByProximity() throws Exception {
-        repository.save(InterestPoint.builder().pointName("point name").latitude(22).longitude(22).build());
-        repository.save(InterestPoint.builder().pointName("other point name").latitude(17).longitude(15).build());
-        repository.save(InterestPoint.builder().pointName("another point name").latitude(23).longitude(50).build());
+        repository.save(InterestPoint.builder().pointName("restaurant").latitude(1).longitude(2).build());
+        repository.save(InterestPoint.builder().pointName("bakery").latitude(1).longitude(3).build());
+        repository.save(InterestPoint.builder().pointName("mall").latitude(2).longitude(4).build());
+        repository.save(InterestPoint.builder().pointName("parking lot").latitude(3).longitude(4).build());
+        repository.save(InterestPoint.builder().pointName("drugstore").latitude(4).longitude(1).build());
+        repository.save(InterestPoint.builder().pointName("ice cream shop").latitude(2).longitude(3).build());
 
         String path = String.format("%s/%s", PATH, "byProximity");
 
         mockMvc.perform(get(path)
                 .accept(MediaType.APPLICATION_JSON)
-                .param("latitude", "15")
-                .param("longitude", "15")
-                .param("radius", "7")
+                .param("latitude", "2")
+                .param("longitude", "3")
+                .param("radius", "1")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$.[0].pointName", is("point name")))
-                .andExpect(jsonPath("$.[1].pointName", is("other point name")));
+                .andExpect(jsonPath("$", hasSize(5)))
+                .andExpect(jsonPath("$.[0].pointName", is("restaurant")))
+                .andExpect(jsonPath("$.[1].pointName", is("bakery")))
+                .andExpect(jsonPath("$.[2].pointName", is("mall")))
+                .andExpect(jsonPath("$.[3].pointName", is("parking lot")))
+                .andExpect(jsonPath("$.[4].pointName", is("ice cream shop")));
     }
 
     @Test

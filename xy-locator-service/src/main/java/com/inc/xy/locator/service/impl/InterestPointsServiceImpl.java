@@ -28,7 +28,6 @@ public class InterestPointsServiceImpl implements InterestPointsService {
     public InterestPoint create(InterestPoint interestPoint) {
         validateFields(interestPoint);
         verifyDuplicateName(interestPoint.getPointName());
-        verifyDuplicateCoordinates(interestPoint);
         return repository.save(interestPoint);
     }
 
@@ -38,16 +37,12 @@ public class InterestPointsServiceImpl implements InterestPointsService {
 
     public List<InterestPoint> findByProximity(PointSearchParam param) {
         validateSearchParam(param);
-        return repository.findByLatitudeIsLessThanEqualAndLongitudeIsLessThanEqual(param.getLatitudeParam(), param.getLongitudeParam());
+        return repository.findByLatitudeIsBetweenAndLongitudeIsBetween(param.getLatitudeMinusRadius(), param.getLatitudePlusRadius(),
+                param.getLongitudeMinusRadius(), param.getLongitudePlusRadius());
     }
 
     private void verifyDuplicateName(String pointName) {
         Optional.ofNullable(repository.findByPointName(pointName)).ifPresent(p -> {throw new BusinessException(DUPLICATED_NAME);});
-    }
-
-    private void verifyDuplicateCoordinates(InterestPoint interestPoint) {
-        Optional.ofNullable(repository.findByLatitudeAndLongitude(interestPoint.getLatitude(),
-                interestPoint.getLongitude())).ifPresent(p -> {throw new BusinessException(DUPLICATED_COORDINATES);});
     }
 
     private void validateFields(InterestPoint interestPoint) {

@@ -21,7 +21,6 @@ public class BusinessException extends RuntimeException {
         public final String message;
 
         public static final ErrorCode DUPLICATED_NAME = new ErrorCode("DUPLICATED_NAME", "this point name has already been taken");
-        public static final ErrorCode DUPLICATED_COORDINATES = new ErrorCode("DUPLICATED_COORDINATES", "these coordinates have already been taken");
         public static final ErrorCode INVALID_NAME = new ErrorCode("INVALID_NAME", "name cannot be null or empty");
         public static final ErrorCode INVALID_COORDINATES = new ErrorCode("INVALID_COORDINATES", "coordinates must not be null and must be a positive number");
         public static final ErrorCode INVALID_SEARCH_PARAM = new ErrorCode("INVALID_SEARCH_PARAM", "search param must have positive coordinates and radius greater than 0");

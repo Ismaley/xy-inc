@@ -17,16 +17,30 @@ public class PointSearchParam {
 
     private Integer radius;
 
-    public Integer getLatitudeParam() {
+    public Integer getLatitudePlusRadius() {
         if(isValid()) {
             return this.latitude + this.radius;
         }
         return null;
     }
 
-    public Integer getLongitudeParam() {
+    public Integer getLatitudeMinusRadius() {
+        if(isValid()) {
+            return this.latitude - this.radius;
+        }
+        return null;
+    }
+
+    public Integer getLongitudePlusRadius() {
         if(isValid()) {
             return this.longitude + this.radius;
+        }
+        return null;
+    }
+
+    public Integer getLongitudeMinusRadius() {
+        if(isValid()) {
+            return this.longitude - this.radius;
         }
         return null;
     }
