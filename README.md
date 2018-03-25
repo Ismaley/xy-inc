@@ -24,7 +24,11 @@ docker-compose up
 ./mvnw test
 ```
 
-2. Documentação
+3. Documentação
 
-após fazer o build do projeto navegar até o diretório /xy-locator-web/target/generated-docs/index.html
+```bash
+# após fazer o build do projeto navegar até o diretório /xy-locator-web/target/generated-docs/index.html
+```
+
+
 
