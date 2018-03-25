@@ -49,23 +49,23 @@ class InterestPointRepositoryTest extends Specification {
 
     def "should find points inside given coordinates 2"() {
         given:
-        repository.save(buildInterestPoint("point1", 1, 2))
-        repository.save(buildInterestPoint("point2", 1, 3))
-        repository.save(buildInterestPoint("point3", 2, 4))
-        repository.save(buildInterestPoint("point4", 3, 4))
-        repository.save(buildInterestPoint("point5", 4, 1))
-        repository.save(buildInterestPoint("point6", 2, 3))
+        repository.save(buildInterestPoint("point1", 1, 3))
+        repository.save(buildInterestPoint("point2", 3, 4))
+        repository.save(buildInterestPoint("point3", 3, 3))
+        repository.save(buildInterestPoint("point4", 3, 2))
+//        repository.save(buildInterestPoint("point5", 4, 1))
+//        repository.save(buildInterestPoint("point6", 2, 3))
 
         when:
         def foundPoints = repository.findByLatitudeIsBetweenAndLongitudeIsBetween(1, 3, 2, 4)
 
         then:
-        foundPoints.size() == 5
+        foundPoints.size() == 3
         foundPoints.get(0).getPointName() == "point1"
-        foundPoints.get(1).getPointName() == "point2"
+//        foundPoints.get(1).getPointName() == "point2"
         foundPoints.get(2).getPointName() == "point3"
         foundPoints.get(3).getPointName() == "point4"
-        foundPoints.get(4).getPointName() == "point6"
+//        foundPoints.get(4).getPointName() == "point6"
     }
 
 

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.inc.xy.locator.service.exceptions.BusinessException.ErrorCode.*;
 
@@ -37,8 +38,13 @@ public class InterestPointsServiceImpl implements InterestPointsService {
 
     public List<InterestPoint> findByProximity(PointSearchParam param) {
         validateSearchParam(param);
-        return repository.findByLatitudeIsBetweenAndLongitudeIsBetween(param.getLatitudeMinusRadius(), param.getLatitudePlusRadius(),
+        List<InterestPoint> points = repository.findByLatitudeIsBetweenAndLongitudeIsBetween(param.getLatitudeMinusRadius(), param.getLatitudePlusRadius(),
                 param.getLongitudeMinusRadius(), param.getLongitudePlusRadius());
+        return points.stream().filter(p -> filterByRadiusDistance(p, param)).collect(Collectors.toList());
+    }
+
+    private boolean filterByRadiusDistance(InterestPoint point, PointSearchParam param) {
+        return Math.pow(param.getRadius(), 2) >= Math.sqrt(Math.pow(param.getLatitude() - point.getLatitude(), 2) + Math.pow(param.getLongitude() - point.getLongitude(), 2));
     }
 
     private void verifyDuplicateName(String pointName) {
