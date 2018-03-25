@@ -44,6 +44,9 @@
 		<java.hamcrest.version>2.0.0.0</java.hamcrest.version>
 		<objenesis.version>2.6</objenesis.version>
         <google.gson.version>2.8.2</google.gson.version>
+        <spring.restdocs.version>2.0.0.RELEASE</spring.restdocs.version>
+		<asciidoctor-plugin.version>1.5.6</asciidoctor-plugin.version>
+		<snippetsDirectory>${project.build.directory}/generated-snippets</snippetsDirectory>
 	</properties>
 
 	<dependencyManagement>
@@ -146,6 +149,11 @@
 				<artifactId>HikariCP</artifactId>
 				<version>${HikariCP.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.springframework.restdocs</groupId>
+				<artifactId>spring-restdocs-core</artifactId>
+				<version>${spring.restdocs.version}</version>
+			</dependency>
 			<!--Test Dependencies-->
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
@@ -171,7 +179,15 @@
 				<version>${cglib.nodep.version}</version>
 				<scope>test</scope>
 			</dependency>
-			<dependency>
+			<!-- RestDoc -->
+            <dependency>
+                <groupId>org.springframework.restdocs</groupId>
+                <artifactId>spring-restdocs-mockmvc</artifactId>
+                <version>${spring.restdocs.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <!-- RestDoc -->
+            <dependency>
 				<groupId>org.hamcrest</groupId>
 				<artifactId>java-hamcrest</artifactId>
 				<version>${java.hamcrest.version}</version>
@@ -185,18 +201,19 @@
 	</dependencyManagement>
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring.boot.version}</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>repackage</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+			<!--<plugin>-->
+				<!--<groupId>org.springframework.boot</groupId>-->
+				<!--<artifactId>spring-boot-maven-plugin</artifactId>-->
+                <!--<version>${spring.boot.version}</version>-->
+				<!--<executions>-->
+					<!--<execution>-->
+						<!--<goals>-->
+							<!--<goal>repackage</goal>-->
+							<!--<goal>build-info</goal>-->
+						<!--</goals>-->
+					<!--</execution>-->
+				<!--</executions>-->
+			<!--</plugin>-->
 			<plugin>
 				<groupId>org.codehaus.gmavenplus</groupId>
 				<artifactId>gmavenplus-plugin</artifactId>
@@ -210,8 +227,38 @@
 					</execution>
 				</executions>
 			</plugin>
-
-		</plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+			<plugin>
+				<groupId>org.asciidoctor</groupId>
+				<artifactId>asciidoctor-maven-plugin</artifactId>
+				<version>${asciidoctor-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>generate-docs</id>
+						<phase>package</phase>
+						<goals>
+							<goal>process-asciidoc</goal>
+						</goals>
+						<configuration>
+							<backend>html</backend>
+							<doctype>book</doctype>
+							<attributes>
+								<snippets>${snippetsDirectory}</snippets>
+							</attributes>
+							<sourceDirectory>src/main/asciidocs</sourceDirectory>
+							<outputDirectory>target/generated-docs</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+        </plugins>
 	</build>
-
 </project>

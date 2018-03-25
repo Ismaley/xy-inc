@@ -1,0 +1,257 @@
+= XY inc Locator services
+Esta é a documentação da api RESTful do XY Locator Services
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:toc-title: Tabela de conteúdo
+:sectlinks:
+
+[[overview]]
+== Introdução
+
+Bem vindo a documentação da XY Locator Services.
+As funcionalidades XY Locator Services são disponibilizadas através de APIs, possibilitando a integração com outras soluções.
+Esta documentação de API irá fornecer uma introdução geral dos serviços, além disso fornecerá informações de referência sobre endpoints especificos desta API.
+
+[[overview-usage]]
+== Como usar
+
+As solicitações devem ser feitas usando o protocolo HTTP. A interface responde a diferentes métodos dependendo da ação necessária.
+
+[[overview-http-verbs]]
+== Verbos HTTP
+
+Esta API RESTful tenta aderir o mais próximo possível às convenções HTTP e REST padrão em seu uso de verbos HTTP.
+
+
+|===
+| Método | Uso
+
+| `GET`
+| Usado para recuperar um recurso
+
+| `POST`
+| Usado para criar um novo recurso
+
+| `PUT`
+| Usado para atualizar um recurso existente, incluindo atualizações parciais
+
+| `DELETE`
+| Usado para excluir um recurso existente
+|===
+
+[[overview-http-status-codes]]
+== Códigos de status HTTP
+
+Esta API RESTful tenta aderir o mais próximo possível às convenções HTTP e REST padrão em seu
+uso de códigos de status HTTP.
+
+|===
+| Código de status | Uso
+
+| `200 OK`
+| A solicitação foi concluída com êxito
+
+| `201 Created`
+| Um novo recurso foi criado com êxito.
+
+| `204 No Content`
+| Uma atualização para um recurso existente foi aplicada com êxito
+
+| `400 Bad Request`
+| Requisição malformada. Resposta da requisição contém detalhes adicionais do erro.
+
+| `401 Unauthorized`
+| Os dados de autorização de acesso a API são inválidos
+
+| `403 Forbidden`
+| Credenciais de acesso sem autorização de acesso ao recurso REST
+
+| `404 Not Found`
+| O recurso solicitado não existia
+|===
+
+
+[[resources]]
+= Recursos
+
+Todos os recursos da API serão detalhados nessa sessão.
+
+[[create-interest-point]]
+= Criar um ponto de interesse com nome e coordenadas
+
+Este recurso permite a criação de um ponto de interesse na API.
+Um exemplo da requisição é apresentado a seguir:
+
+[[create-interest-point-request-structure]]
+=== Estrutura da requisição
+
+Requisição de `POST` usada para enviar as informações do ponto de interesse para o servidor.
+
+|===
+|Propriedade        |Opcional           |Descrição                          |Validações
+
+|pointName          |não opcional       |Nome do ponto de interesse         |Deve ser único e não vazio
+|latitude           |não opcional       |Latitude do ponto de interesse     |Deve ser do tipo inteiro e positivo
+|longitude          |não opcional       |Longitude do ponto de interesse    |Deve ser do tipo inteiro e positivo
+|===
+
+[[create-interest-point-request-success]]
+=== Sucesso
+
+[[create-interest-point-request]]
+
+==== Requisição
+include::{snippets}/should-create-interest-point/http-request.adoc[]
+
+=== Curl
+include::{snippets}/should-create-interest-point/curl-request.adoc[]
+
+=== Resposta
+include::{snippets}/should-create-interest-point/http-response.adoc[]
+
+[[create-interest-point-request-failure-duplicated-name]]
+=== Falha (Nome Duplicado)
+
+[[create-interest-point-request]]
+
+==== Requisição
+include::{snippets}/should-not-create-interest-point-with-duplicated-name/http-request.adoc[]
+
+=== Curl
+include::{snippets}/should-not-create-interest-point-with-duplicated-name/curl-request.adoc[]
+
+=== Resposta
+include::{snippets}/should-not-create-interest-point-with-duplicated-name/http-response.adoc[]
+
+[[create-interest-point-request-failure-invalid-name]]
+=== Falha (Nome Inválido)
+
+[[create-interest-point-request]]
+
+==== Requisição
+include::{snippets}/should-not-create-interest-point-with-empty-name/http-request.adoc[]
+
+=== Curl
+include::{snippets}/should-not-create-interest-point-with-empty-name/curl-request.adoc[]
+
+=== Resposta
+include::{snippets}/should-not-create-interest-point-with-empty-name/http-response.adoc[]
+
+[[create-interest-point-request-failure-invalid-coordinates]]
+=== Falha (Coordenadas Inválidas)
+
+[[create-interest-point-request]]
+
+==== Requisição
+include::{snippets}/should-not-create-interest-point-with-invalid-coordinates/http-request.adoc[]
+
+=== Curl
+include::{snippets}/should-not-create-interest-point-with-invalid-coordinates/curl-request.adoc[]
+
+=== Resposta
+include::{snippets}/should-not-create-interest-point-with-invalid-coordinates/http-response.adoc[]
+
+
+[[find-all-interest-points]]
+= Buscar todos os pontos de interesse cadastrados
+
+Este recurso permite a busca de todos os pontos de interesse cadastrados na API.
+Um exemplo da requisição é apresentado a seguir:
+
+[[find-all-interest-points-request-structure]]
+=== Estrutura da requisição
+
+Requisição de `GET` usada para buscar todos os pontos de interesse cadastrados.
+
+
+[[find-all-interest-points-request-success-with-points]]
+=== Sucesso (com pelo menos algum ponto cadastrado)
+
+[[find-all-interest-points-request]]
+
+==== Requisição
+include::{snippets}/should-find-all-points/http-request.adoc[]
+
+=== Curl
+include::{snippets}/should-find-all-points/curl-request.adoc[]
+
+=== Resposta
+include::{snippets}/should-find-all-points/http-response.adoc[]
+
+[[find-all-interest-points-request-success-without-points]]
+=== Sucesso (sem nenhum ponto)
+
+[[find-all-interest-points-request]]
+
+==== Requisição
+include::{snippets}/should-return-empty-list-if-no-points-are-saved/http-request.adoc[]
+
+=== Curl
+include::{snippets}/should-return-empty-list-if-no-points-are-saved/curl-request.adoc[]
+
+=== Resposta
+include::{snippets}/should-return-empty-list-if-no-points-are-saved/http-response.adoc[]
+
+[[find-points-by-proximity]]
+= Buscar pontos próximos
+
+Este recurso permite a busca de pontos próximos à localização do usuário.
+Um exemplo da requisição é apresentado a seguir:
+
+[[find-points-by-proximity-request-structure]]
+=== Estrutura da requisição
+
+Requisição de `GET` buscar os pontos de interesse próximos cadastrados no servidor.
+
+|===
+|Parâmetros de busca    |Opcional           |Descrição                                      |Validações
+
+|latitude               |não opcional       |Latitude do ponto de referência do usuário     |Deve ser do tipo inteiro e positivo
+|longitude              |não opcional       |Longitude do ponto de referência do usuário    |Deve ser do tipo inteiro e positivo
+|radius                 |não opcional       |Distância máxima da busca                      |Deve ser do tipo inteiro e positivo
+|===
+
+[[find-points-by-proximity-request-success-with-points]]
+=== Sucesso (com pelo menos algum ponto cadastrado)
+
+[[find-points-by-proximity-request]]
+
+==== Requisição
+include::{snippets}/should-find-points-by-proximity/http-request.adoc[]
+
+=== Curl
+include::{snippets}/should-find-points-by-proximity/curl-request.adoc[]
+
+=== Resposta
+include::{snippets}/should-find-points-by-proximity/http-response.adoc[]
+
+[[find-points-by-proximity-request-success-without-points]]
+=== Sucesso (com nenhum ponto cadastrado)
+
+[[find-points-by-proximity-request]]
+
+==== Requisição
+include::{snippets}/should-return-empty-list-if-there-are-no-points-nearby/http-request.adoc[]
+
+=== Curl
+include::{snippets}/should-return-empty-list-if-there-are-no-points-nearby/curl-request.adoc[]
+
+=== Resposta
+include::{snippets}/should-return-empty-list-if-there-are-no-points-nearby/http-response.adoc[]
+
+[[find-points-by-proximity-request-failure]]
+=== Falha (parâmetros de busca inválidos)
+
+[[find-points-by-proximity-request]]
+
+==== Requisição
+include::{snippets}/should-not-find-points-by-proximity-if-search-param-is-invalid/http-request.adoc[]
+
+=== Curl
+include::{snippets}/should-not-find-points-by-proximity-if-search-param-is-invalid/curl-request.adoc[]
+
+=== Resposta
+include::{snippets}/should-not-find-points-by-proximity-if-search-param-is-invalid/http-response.adoc[]
