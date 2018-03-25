@@ -68,22 +68,6 @@ class InterestPointRepositoryTest extends Specification {
         foundPoints.get(4).getPointName() == "point6"
     }
 
-    def "should find point by coordinates"() {
-        given:
-        def latitude = 22
-        def longitude = 32
-        InterestPoint point = repository.save(buildInterestPoint("point1", latitude, longitude))
-        def pointId = point.getId()
-
-        when:
-        def foundPoint = repository.findByLatitudeAndLongitude(latitude, longitude)
-
-        then:
-        foundPoint != null
-        foundPoint.getId() == pointId
-        foundPoint.getLatitude() == latitude
-        foundPoint.getLongitude() == longitude
-    }
 
     InterestPoint buildInterestPoint(String pointName, Integer latitude, Integer longitude) {
         return InterestPoint.builder()

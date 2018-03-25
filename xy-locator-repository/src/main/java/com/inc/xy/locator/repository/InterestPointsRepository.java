@@ -11,6 +11,4 @@ public interface InterestPointsRepository extends JpaRepository<InterestPoint, L
                                                                      Integer startLongitudeRange, Integer endLongitudeRange);
 
     InterestPoint findByPointName(String name);
-
-    InterestPoint findByLatitudeAndLongitude(Integer latitude, Integer longitude);
 }

@@ -155,7 +155,7 @@ public class InterestPointIntegratedTest {
         repository.save(InterestPoint.builder().pointName("drugstore").latitude(4).longitude(1).build());
         repository.save(InterestPoint.builder().pointName("ice cream shop").latitude(2).longitude(3).build());
 
-        String path = String.format("%s/%s", PATH, "byProximity");
+        String path = String.format("%s/%s", PATH, "byproximity");
 
         this.mockMvc.perform(get(path)
                 .accept(MediaType.APPLICATION_JSON)
@@ -176,7 +176,7 @@ public class InterestPointIntegratedTest {
     public void shouldReturnEmptyListIfThereAreNoPointsNearby() throws Exception {
         repository.save(InterestPoint.builder().pointName("bakery").latitude(4).longitude(1).build());
 
-        String path = String.format("%s/%s", PATH, "byProximity");
+        String path = String.format("%s/%s", PATH, "byproximity");
 
         this.mockMvc.perform(get(path)
                 .accept(MediaType.APPLICATION_JSON)
@@ -192,7 +192,7 @@ public class InterestPointIntegratedTest {
     public void shouldNotFindPointsByProximityIfSearchParamIsInvalid() throws Exception {
         repository.save(InterestPoint.builder().pointName("bakery").latitude(4).longitude(1).build());
 
-        String path = String.format("%s/%s", PATH, "byProximity");
+        String path = String.format("%s/%s", PATH, "byproximity");
 
         this.mockMvc.perform(get(path)
                 .accept(MediaType.APPLICATION_JSON)

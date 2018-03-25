@@ -19,7 +19,7 @@ public interface InterestPointsApi {
     @ResponseBody
     List<InterestPointTO> findAll();
 
-    @GetMapping(value = {"/interest-points/byProximity"})
+    @GetMapping(value = {"/interest-points/byproximity"})
     @ResponseBody
     List<InterestPointTO> findByProximity(PointSearchParamTO param);
 }

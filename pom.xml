@@ -2,19 +2,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
 	<groupId>com.xyinc</groupId>
 	<artifactId>xy-locator</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<modules>
 		<module>xy-locator-api</module>
-		<module>xy-locator-web</module>
+		<module>xy-locator-model</module>
 		<module>xy-locator-repository</module>
 		<module>xy-locator-service</module>
-		<module>xy-locator-model</module>
+		<module>xy-locator-web</module>
 	</modules>
 	<packaging>pom</packaging>
-
 	<name>xy-locator</name>
 	<description>test locator application</description>
 
@@ -201,19 +199,24 @@
 	</dependencyManagement>
 	<build>
 		<plugins>
-			<!--<plugin>-->
-				<!--<groupId>org.springframework.boot</groupId>-->
-				<!--<artifactId>spring-boot-maven-plugin</artifactId>-->
-                <!--<version>${spring.boot.version}</version>-->
-				<!--<executions>-->
-					<!--<execution>-->
-						<!--<goals>-->
-							<!--<goal>repackage</goal>-->
-							<!--<goal>build-info</goal>-->
-						<!--</goals>-->
-					<!--</execution>-->
-				<!--</executions>-->
-			<!--</plugin>-->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>${spring.boot.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+						<configuration>
+							<classifier>exec</classifier>
+						</configuration>
+					</execution>
+				</executions>
+				<configuration>
+					<mainClass>com.inc.xy.locator.web.application.XyLocatorApplication</mainClass>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.codehaus.gmavenplus</groupId>
 				<artifactId>gmavenplus-plugin</artifactId>

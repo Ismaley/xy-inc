@@ -51,7 +51,6 @@ class InterestPointServiceTest extends Specification {
         then:
         def e = thrown(BusinessException)
         0 * repository.findByPointName(_)
-        0 * repository.findByLatitudeAndLongitude(_, _)
         0 * repository.save(_)
         e.getMessage() == INVALID_NAME.message
     }
@@ -66,7 +65,6 @@ class InterestPointServiceTest extends Specification {
         then:
         1 * repository.findByPointName(point.getPointName()) >> interestPoint
         def e = thrown(BusinessException)
-        0 * repository.findByLatitudeAndLongitude(_, _)
         0 * repository.save(_)
         e.getMessage() == DUPLICATED_NAME.message
     }
@@ -81,7 +79,6 @@ class InterestPointServiceTest extends Specification {
         then:
         def e = thrown(BusinessException)
         0 * repository.findByPointName(_)
-        0 * repository.findByLatitudeAndLongitude(_, _)
         0 * repository.save(_)
         e.getMessage() == INVALID_COORDINATES.message
     }
