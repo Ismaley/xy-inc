@@ -27,7 +27,7 @@ docker-compose up
 3. Documentação
 
 ```bash
-# após fazer o build do projeto navegar até o diretório /xy-locator-web/target/generated-docs/index.html
+após fazer o build do projeto navegar até o diretório /xy-locator-web/target/generated-docs/index.html
 ```
 
 
