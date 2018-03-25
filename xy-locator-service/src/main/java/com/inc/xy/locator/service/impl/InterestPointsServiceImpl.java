@@ -44,7 +44,7 @@ public class InterestPointsServiceImpl implements InterestPointsService {
     }
 
     private boolean isInsideSearchRadius(InterestPoint point, PointSearchParam param) {
-        return param.getRadius() >= Math.sqrt(Math.pow(param.getLatitude() - point.getLatitude(), 2) + Math.pow(param.getLongitude() - point.getLongitude(), 2));
+        return param.getRadius() >= Math.sqrt(Math.pow(point.getLatitude() - param.getLatitude(), 2) + Math.pow(point.getLongitude() - param.getLongitude(), 2));
     }
 
     private void verifyDuplicateName(String pointName) {
