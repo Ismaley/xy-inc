@@ -95,10 +95,22 @@ class InterestPointServiceTest extends Specification {
     def "should find points by proximity"() {
         given:
         def searchParam = PointSearchParam.builder()
-            .latitude(latitude)
-            .longitude(longitude)
+            .latitude(20)
+            .longitude(10)
             .radius(10)
             .build()
+
+        def dinnerPlace = InterestPoint.builder()
+            .pointName("dinnerPlace")
+            .latitude(27)
+            .longitude(12)
+            .build()
+
+        def steakHouse = InterestPoint.builder()
+                .pointName("steakHouse")
+                .latitude(28)
+                .longitude(2)
+                .build()
 
         when:
         def points = service.findByProximity(searchParam)
@@ -106,8 +118,10 @@ class InterestPointServiceTest extends Specification {
         then:
         1 * repository.findByLatitudeIsBetweenAndLongitudeIsBetween(searchParam.getLatitudeMinusRadius(),
                 searchParam.getLatitudePlusRadius(), searchParam.getLongitudeMinusRadius(),
-                searchParam.getLongitudePlusRadius()) >> Arrays.asList(interestPoint, interestPoint)
-        points.size() == 2
+                searchParam.getLongitudePlusRadius()) >> Arrays.asList(dinnerPlace, steakHouse)
+        points.size() == 1
+        points.get(0) == dinnerPlace
+
     }
 
     def "should not find points by proximity if searchParam is invalid"() {

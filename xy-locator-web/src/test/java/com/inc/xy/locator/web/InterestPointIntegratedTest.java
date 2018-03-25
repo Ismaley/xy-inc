@@ -24,9 +24,7 @@ import static com.inc.xy.locator.service.exceptions.BusinessException.ErrorCode.
 import static org.hamcrest.Matchers.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -149,29 +147,29 @@ public class InterestPointIntegratedTest {
 
     @Test
     public void shouldFindPointsByProximity() throws Exception {
-//        repository.save(InterestPoint.builder().pointName("restaurant").latitude(1).longitude(2).build());
-//        repository.save(InterestPoint.builder().pointName("bakery").latitude(1).longitude(3).build());
-        repository.save(InterestPoint.builder().pointName("mall").latitude(2).longitude(4).build());
-        repository.save(InterestPoint.builder().pointName("parking lot").latitude(3).longitude(4).build());
-//        repository.save(InterestPoint.builder().pointName("drugstore").latitude(4).longitude(1).build());
-//        repository.save(InterestPoint.builder().pointName("ice cream shop").latitude(2).longitude(3).build());
+        repository.save(InterestPoint.builder().pointName("restaurant").latitude(27).longitude(12).build());
+        repository.save(InterestPoint.builder().pointName("gas station").latitude(31).longitude(18).build());
+        repository.save(InterestPoint.builder().pointName("jewelry").latitude(15).longitude(12).build());
+        repository.save(InterestPoint.builder().pointName("flower shop").latitude(19).longitude(21).build());
+        repository.save(InterestPoint.builder().pointName("pub").latitude(12).longitude(8).build());
+        repository.save(InterestPoint.builder().pointName("grocery shop").latitude(23).longitude(6).build());
+        repository.save(InterestPoint.builder().pointName("steakhouse").latitude(28).longitude(2).build());
 
         String path = String.format("%s/%s", PATH, "byproximity");
 
         this.mockMvc.perform(get(path)
                 .accept(MediaType.APPLICATION_JSON)
-                .param("latitude", "2")
-                .param("longitude", "3")
-                .param("radius", "1")
+                .param("latitude", "20")
+                .param("longitude", "10")
+                .param("radius", "10")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(4)))
+                .andExpect(jsonPath("$.[0].pointName", is("restaurant")))
+                .andExpect(jsonPath("$.[1].pointName", is("jewelry")))
+                .andExpect(jsonPath("$.[2].pointName", is("pub")))
+                .andExpect(jsonPath("$.[3].pointName", is("grocery shop")))
                 .andDo(MockMvcResultHandlers.print());
-//                .andExpect(jsonPath("$", hasSize(5)))
-//                .andExpect(jsonPath("$.[0].pointName", is("restaurant")))
-//                .andExpect(jsonPath("$.[1].pointName", is("bakery")))
-//                .andExpect(jsonPath("$.[2].pointName", is("mall")))
-//                .andExpect(jsonPath("$.[3].pointName", is("parking lot")))
-//                .andExpect(jsonPath("$.[4].pointName", is("ice cream shop")));
     }
 
     @Test

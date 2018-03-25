@@ -44,7 +44,7 @@ public class InterestPointsServiceImpl implements InterestPointsService {
     }
 
     private boolean filterByRadiusDistance(InterestPoint point, PointSearchParam param) {
-        return Math.pow(param.getRadius(), 2) >= Math.sqrt(Math.pow(param.getLatitude() - point.getLatitude(), 2) + Math.pow(param.getLongitude() - point.getLongitude(), 2));
+        return param.getRadius() >= Math.sqrt(Math.pow(param.getLatitude() - point.getLatitude(), 2) + Math.pow(param.getLongitude() - point.getLongitude(), 2));
     }
 
     private void verifyDuplicateName(String pointName) {
