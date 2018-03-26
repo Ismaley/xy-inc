@@ -29,7 +29,7 @@ docker-compose -f docker-dev.yml up
 3. Documentação
 
 ```bash
-após fazer o build do projeto navegar até o diretório /xy-locator-web/target/generated-docs/ e abrir o arquivo index.html
+# após fazer o build do projeto navegar até o diretório ../xy-locator-web/target/generated-docs/ e abrir o arquivo index.html
 ```
 
 
